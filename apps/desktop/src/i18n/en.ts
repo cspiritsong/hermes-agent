@@ -1888,6 +1888,7 @@ export const en: Translations = {
     projectEmpty: 'No sessions yet',
     noSessions: 'No sessions yet',
     noFilterMatches: 'No sessions match these filters',
+    resetFilters: 'Reset filters',
     projects: {
       sectionLabel: 'Projects',
       home: 'Home',

@@ -1568,6 +1568,7 @@ export const ar = defineLocale({
     projectEmpty: 'لا توجد جلسات بعد',
     noSessions: 'لا توجد جلسات بعد',
     noFilterMatches: 'لا توجد جلسات تطابق عوامل التصفية هذه',
+    resetFilters: 'إعادة تعيين عوامل التصفية',
     projects: {
       sectionLabel: 'المشاريع',
       home: 'الرئيسية',

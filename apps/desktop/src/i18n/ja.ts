@@ -1712,6 +1712,7 @@ export const ja = defineLocale({
     projectEmpty: 'セッションはまだありません',
     noSessions: 'セッションはまだありません',
     noFilterMatches: 'このフィルターに一致するセッションはありません',
+    resetFilters: 'フィルターをリセット',
     projects: {
       sectionLabel: 'プロジェクト',
       home: 'ホーム',

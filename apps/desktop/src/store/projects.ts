@@ -14,7 +14,7 @@ import { isMissingRpcMethod } from '@/lib/gateway-rpc'
 import { isUnderPath } from '@/lib/path-compare'
 import { persistentAtom } from '@/lib/persisted'
 import { $gateway, activeGateway, ensureActiveGatewayOpen } from '@/store/gateway'
-import { setSidebarAgentsGrouped } from '@/store/layout'
+import { $sidebarProjectFilter, setSidebarAgentsGrouped } from '@/store/layout'
 import { notify } from '@/store/notifications'
 import { $activeGatewayProfile, $profileScope, ALL_PROFILES, requestFreshSession } from '@/store/profile'
 import {
@@ -24,6 +24,7 @@ import {
   setSessions,
   workspaceCwdForNewSession
 } from '@/store/session'
+import { projectTreeFilterIds, reconcileProjectFilterIds } from '@/store/sidebar-filter-reconcile'
 import type { ProjectInfo, ProjectsPayload } from '@/types/hermes'
 
 // First-class, per-profile Projects (named, multi-folder workspaces). State is
@@ -400,10 +401,28 @@ const PROJECT_TREE_REQUEST_TIMEOUT_MS = 60_000
 
 let projectTreeRefreshGeneration = 0
 
-function applyProjectTreePayload(res: ProjectTreePayload): void {
+export function applyProjectTreePayload(res: ProjectTreePayload): void {
   const scoped = new Set(res.scoped_session_ids ?? [])
-  $projectTree.set(res.projects ?? [])
+  const projects = res.projects ?? []
+
+  $projectTree.set(projects)
   $activeProjectId.set(res.active_id ?? null)
+
+  // Persisted project filters outlive the projects they name (deleted on the
+  // backend, profile/backend switch): the stale id matches zero sessions and
+  // the sidebar renders "No sessions match these filters" until the user
+  // manually resets the view. Drop only ids that provably no longer exist in
+  // this authoritative tree; an empty tree clears nothing (partial truth
+  // never clobbers) — the empty-state reset action covers that case.
+  if (projects.length > 0) {
+    const persistedFilter = $sidebarProjectFilter.get()
+    const reconciled = reconcileProjectFilterIds(persistedFilter, projectTreeFilterIds(projects))
+
+    if (reconciled !== persistedFilter) {
+      $sidebarProjectFilter.set([...reconciled])
+    }
+  }
+
   const tombstones = $removedSessionIds.get()
 
   if (tombstones.size) {

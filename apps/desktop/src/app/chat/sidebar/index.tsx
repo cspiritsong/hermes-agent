@@ -162,6 +162,7 @@ import {
 import { WorktreeDialog } from './projects/worktree-dialog'
 import { SidebarBlankState, SidebarPinnedEmptyState, SidebarSessionSkeletons } from './section-states'
 import { buildSessionByAnyId } from './session-index'
+import { SessionsEmptyState } from './sessions-empty-state'
 import { SidebarSessionsSection, VIRTUALIZE_THRESHOLD } from './sessions-section'
 import { CONTEXT_SPLIT_KIT, SplitSubmenu } from './split-submenu'
 
@@ -1594,15 +1595,11 @@ export function ChatSidebar({
                   showSessionSkeletons ? (
                     <SidebarSessionSkeletons />
                   ) : (
-                    <div className="grid min-h-16 place-items-center rounded-lg px-2 text-center text-xs text-(--ui-text-tertiary)">
-                      {inProject
-                        ? s.projectEmpty
-                        : filtersActive
-                          ? s.noFilterMatches
-                          : pinnedSessions.length > 0
-                            ? s.allPinned
-                            : s.noSessions}
-                    </div>
+                    <SessionsEmptyState
+                      filtersActive={filtersActive}
+                      hasPinned={pinnedSessions.length > 0}
+                      inProject={inProject}
+                    />
                   )
                 }
                 footer={

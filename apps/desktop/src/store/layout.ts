@@ -640,7 +640,10 @@ export function toggleSidebarPrFilter(bucket: PullRequestBucket) {
   toggleIn($sidebarPrFilter, bucket)
 }
 
-function clearSidebarFilters() {
+/** Clears every sidebar filter atom, leaving grouping/ordering/row-meta
+ *  untouched. The narrower sibling of {@link resetSidebarView}, used by the
+ *  empty-state "Reset filters" action. */
+export function clearSidebarFilters() {
   $sidebarStatusFilter.set([])
   $sidebarProjectFilter.set([])
   $sidebarProfileFilter.set([])

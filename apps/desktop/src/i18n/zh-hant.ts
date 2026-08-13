@@ -1657,6 +1657,7 @@ export const zhHant = defineLocale({
     projectEmpty: '尚無工作階段',
     noSessions: '尚無工作階段',
     noFilterMatches: '沒有工作階段符合這些篩選條件',
+    resetFilters: '重設篩選條件',
     projects: {
       sectionLabel: '專案',
       home: '主頁',

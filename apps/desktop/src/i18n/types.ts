@@ -1578,6 +1578,7 @@ export interface Translations {
     projectEmpty: string
     noSessions: string
     noFilterMatches: string
+    resetFilters: string
     projects: {
       sectionLabel: string
       home: string

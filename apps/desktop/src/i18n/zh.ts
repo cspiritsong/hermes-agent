@@ -2079,6 +2079,7 @@ export const zh: Translations = {
     projectEmpty: '暂无会话',
     noSessions: '暂无会话',
     noFilterMatches: '没有会话符合这些筛选条件',
+    resetFilters: '重置筛选条件',
     projects: {
       sectionLabel: '项目',
       home: '主页',
